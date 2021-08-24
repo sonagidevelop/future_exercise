@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
 
                   String finalTime = getLeftTimeStr(leftMin);
-
+                  String gong = "a";
                   return Column(
                     children: [
                       Text(aa),

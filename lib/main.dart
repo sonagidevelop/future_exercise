@@ -91,12 +91,15 @@ class _MyHomePageState extends State<MyHomePage> {
                   return Container(
                     child: Column(
                       children: [
-                        Text(
-                          shi,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal,
-                              textBaseline: TextBaseline.alphabetic),
+                        Material(
+                          color: Colors.red.withOpacity(0),
+                          child: Text(
+                            shi,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                textBaseline: TextBaseline.alphabetic),
+                          ),
                         ),
                         Text(gu)
                       ],

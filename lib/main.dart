@@ -4,6 +4,7 @@ import 'package:future_exercise/init.dart';
 import 'package:future_exercise/apis/naverapi.dart';
 import 'package:future_exercise/splash.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 
 void main() async {
   runApp(MyApp());
@@ -112,14 +113,33 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
                   String aa = snapshot.data.toString().substring(1, 5);
+                  String fs = aa.substring(0, 2);
+                  String bs = aa.substring(2);
+                  String fd = DateFormat('yyyy-MM-dd').format(DateTime.now());
+                  var leftSstTimeStr = fd + ' ' + fs + ':' + bs;
+                  DateTime leftSstTime =
+                      new DateFormat('yyyy-MM-dd HH:mm').parse(leftSstTimeStr);
+                  Duration diff = leftSstTime.difference(DateTime.now());
+                  int leftMin = diff.inMinutes.toInt() + 1;
+                  String getLeftTimeStr(int value) {
+                    final int hour = value ~/ 60;
+                    final int minutes = value % 60;
+                    return '노을까지 ${hour.toString().padLeft(2, "0")}시간 ${minutes.toString().padLeft(2, "0")}분 남았습니다.';
+                  }
+
+                  String finalTime = getLeftTimeStr(leftMin);
+
                   return Column(
-                    children: [Text(aa)],
+                    children: [
+                      Text(aa),
+                      Text(finalTime),
+                    ],
                   );
                 } else {
                   return CircularProgressIndicator();
                 }
               },
-            )
+            ),
           ],
         ),
       ),

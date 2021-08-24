@@ -111,7 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       ]
                           // colors: leftMin > 30 ? bgColors[0] : bgColors[1]
                           )),
-                  child: Column(
+                  child: Stack(
+                    fit: StackFit.expand,
                     children: [
                       SafeArea(
                         child: Column(
@@ -156,8 +157,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
-                      Positioned.fill(
-                          child: Image.asset('images/city1.png',))
+                      ColorFiltered(
+                        colorFilter: ColorFilter.mode(
+                            Color(0xffE57539), BlendMode.srcATop),
+                        child: Image.asset('images/sun.png'),
+                      ),
+                      Image.asset('images/city1.png',
+                          alignment: Alignment.bottomCenter),
                     ],
                   )),
             );

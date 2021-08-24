@@ -26,11 +26,22 @@ class MyApp extends StatelessWidget {
               String long = snapshot.data.toString().split(",")[0].substring(1);
               String lati =
                   snapshot.data.toString().split(",")[1].substring(0, 10);
-              return MyHomePage(
-                title: lati,
-                lon: long,
-                lat: lati,
-              );
+              return Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                        Color(0xff7faeff),
+                        Color(0xffe0bfff),
+                        Color(0xffffa67f),
+                        Color(0xffff6a7a),
+                      ])),
+                  child: MyHomePage(
+                    title: lati,
+                    lon: long,
+                    lat: lati,
+                  ));
             } else {
               return SplashScreen();
             }
@@ -59,11 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final Future _sunset =
         SunsetTimeApi.getSunsetTimeData(widget.lon, widget.lat);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
+    return Container(
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -80,8 +88,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       .toString()
                       .split(",")[1]
                       .substring(1, lastindex);
-                  return Column(
-                    children: [Text(shi), Text(gu)],
+                  return Container(
+                    child: Column(
+                      children: [
+                        Text(
+                          shi,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              textBaseline: TextBaseline.alphabetic),
+                        ),
+                        Text(gu)
+                      ],
+                    ),
                   );
                 } else {
                   return CircularProgressIndicator();

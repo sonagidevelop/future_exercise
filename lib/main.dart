@@ -97,12 +97,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                        if (leftMin > 120) ...[
+                        if (leftMin > 200) ...[
                           bgColors[0][0],
                           bgColors[0][1],
                           bgColors[0][2],
                           bgColors[0][3],
-                        ] else if (leftMin > 30 && leftMin <= 120) ...[
+                        ] else if (leftMin <= 200) ...[
                           bgColors[1][0],
                           bgColors[1][1],
                           bgColors[1][2],
@@ -143,9 +143,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                       children: [
                                         Text(
                                           shi,
+                                          style: TextStyle(
+                                              fontSize: 30,
+                                              fontFamily: 'GowunDodum'),
                                         ),
-                                        Text(" "),
-                                        Text(gu)
+                                        Text(
+                                          " ",
+                                          style: TextStyle(
+                                              fontSize: 30,
+                                              fontFamily: 'GowunDodum'),
+                                        ),
+                                        Text(
+                                          gu,
+                                          style: TextStyle(
+                                              fontSize: 30,
+                                              fontFamily: 'GowunDodum'),
+                                        )
                                       ],
                                     ),
                                   );
@@ -159,16 +172,18 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       ColorFiltered(
                         colorFilter: ColorFilter.mode(
-                            Color(0xffE57539), BlendMode.srcATop),
+                            Color(0xffE57520), BlendMode.srcATop),
                         child: Image.asset('images/sun.png'),
                       ),
-                      Image.asset('images/city1.png',
-                          alignment: Alignment.bottomCenter),
+                      Image.asset(
+                        'images/city2.png',
+                        alignment: Alignment.bottomCenter,
+                      ),
                     ],
                   )),
             );
           } else {
-            return Scaffold(body: Center(child: Text("loading")));
+            return Scaffold(body: Center(child: CircularProgressIndicator()));
           }
         },
       ),

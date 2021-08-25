@@ -266,10 +266,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       ColorFiltered(
                         colorFilter:
                             ColorFilter.mode(Colors.yellow, BlendMode.srcATop),
-                        child: Image.asset('images/sun.png'),
+                        child: Image.asset('images/sun1.png'),
                       ),
                       Image.asset(
-                        'images/city2.png',
+                        'images/city1.png',
                         alignment: Alignment.bottomCenter,
                       ),
                     ],

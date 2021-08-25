@@ -57,7 +57,11 @@ flutter:
     - images/city1.png
     - images/city2.png
     - images/city3.png
-    - images/sun.png
+    - images/city4.png
+    - images/city5.png
+    - images/city6.png
+    - images/sun1.png
+    - images/sun2.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

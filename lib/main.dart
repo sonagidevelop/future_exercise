@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:future_exercise/apis/sunsettimeapi.dart';
 import 'package:future_exercise/colors.dart';
 import 'package:future_exercise/init.dart';
@@ -6,6 +8,8 @@ import 'package:future_exercise/apis/naverapi.dart';
 import 'package:future_exercise/splash.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:timezone/data/latest.dart' as az;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
   runApp(MyApp());
@@ -17,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'noeul',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -56,7 +61,67 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
   @override
+  void initState() {
+    super.initState();
+    var androidSetting = AndroidInitializationSettings("@mipmap/ic_launcher");
+
+    var iosSetting = IOSInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
+        onDidReceiveLocalNotification:
+            (int id, String? title, String? body, String? payload) async {});
+    var initializationSettings =
+        InitializationSettings(android: androidSetting, iOS: iosSetting);
+
+    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    _flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+    _showNotificationAtTime();
+    print("알림 작동");
+  }
+
+  void _showNotificationAtTime() async {
+    var type = 'yyyy-MM-dd (E) a HH:mm:ss';
+    var sunsetAlarmDate = DateFormat(type).format(DateTime.now());
+    print(sunsetAlarmDate);
+    var android = AndroidNotificationDetails(
+        'channelId', 'channelName', 'channelDescription',
+        importance: Importance.max, priority: Priority.high);
+    var ios = IOSNotificationDetails();
+    var detail = NotificationDetails(android: android, iOS: ios);
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
+        0, '제목', '내용', _setNotiTime(), detail,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        androidAllowWhileIdle: true,
+        matchDateTimeComponents: DateTimeComponents.time);
+  }
+
+  Future<void> onSelectNotification(String? payload) async {
+    debugPrint('$payload');
+    showDialog(
+        context: context,
+        builder: (_) => CupertinoAlertDialog(
+              title: Text('sdsdsdsd'),
+              content: Text('Payload: $payload'),
+            ));
+  }
+
+  tz.TZDateTime _setNotiTime() {
+    az.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
+    final now = tz.TZDateTime.now(tz.local);
+    var scheduledDate =
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, 10, 57);
+
+    return scheduledDate;
+  }
+
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     var width = screenSize.width;
@@ -105,8 +170,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         ] else if (leftMin <= 200) ...[
                           bgColors[1][0],
                           bgColors[1][1],
-                          bgColors[1][2],
-                          bgColors[1][3]
+                          // bgColors[1][2],
+                          // bgColors[1][3]
                         ]
                       ]
                           // colors: leftMin > 30 ? bgColors[0] : bgColors[1]
@@ -117,8 +182,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       SafeArea(
                         child: Column(
                           children: [
-                            Text(aa),
-                            Text(finalTime),
+                            Text(
+                              finalTime,
+                              style: TextStyle(color: Colors.white),
+                            ),
                             FutureBuilder(
                               future: _naver,
                               builder: (context, snapshot) {
@@ -145,7 +212,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           shi,
                                           style: TextStyle(
                                               fontSize: 30,
-                                              fontFamily: 'GowunDodum'),
+                                              fontFamily: 'GowunDodum',
+                                              color: Colors.white),
                                         ),
                                         Text(
                                           " ",
@@ -157,7 +225,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                           gu,
                                           style: TextStyle(
                                               fontSize: 30,
-                                              fontFamily: 'GowunDodum'),
+                                              fontFamily: 'GowunDodum',
+                                              color: Colors.white),
                                         )
                                       ],
                                     ),
@@ -167,12 +236,36 @@ class _MyHomePageState extends State<MyHomePage> {
                                 }
                               },
                             ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  aa.substring(0, 2),
+                                  style: TextStyle(
+                                      fontSize: 40,
+                                      fontFamily: 'GowunDodum',
+                                      color: Colors.white),
+                                ),
+                                Text(
+                                  ":",
+                                  style: TextStyle(
+                                      fontSize: 40, color: Colors.white),
+                                ),
+                                Text(
+                                  aa.substring(2),
+                                  style: TextStyle(
+                                      fontSize: 40,
+                                      fontFamily: 'GowunDodum',
+                                      color: Colors.white),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
                       ColorFiltered(
-                        colorFilter: ColorFilter.mode(
-                            Color(0xffE57520), BlendMode.srcATop),
+                        colorFilter:
+                            ColorFilter.mode(Colors.yellow, BlendMode.srcATop),
                         child: Image.asset('images/sun.png'),
                       ),
                       Image.asset(

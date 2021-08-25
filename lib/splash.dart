@@ -7,13 +7,7 @@ class SplashScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(
-            "Initialization",
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          Image.asset('images/logo.png'),
           SizedBox(height: 20),
           CircularProgressIndicator()
         ],

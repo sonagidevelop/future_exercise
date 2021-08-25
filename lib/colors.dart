@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 
 List bgColors = [
   [Color(0xff779dd2), Color(0xffffffff)],
-  [
-    Color(0xff7faeff),
-    Color(0xffe0bfff),
-    Color(0xffffa67f),
-    Color(0xffff6a7a),
-  ],
-  
+
+  [Color(0xff779dd2), Color(0xffdab5d3)],
+  // [
+  //   Color(0xff7faeff),
+  //   Color(0xffe0bfff),
+  //   Color(0xffffa67f),
+  //   Color(0xffff6a7a),
+  // ],
+
   // 노을 55%
-  [Color(0xff5172c5), 
-  Color(0xff6e6a96), 
+  [Color(0xff779dd2), 
   Color(0xffd9a4a8), 
   Color(0xfff2ae8a)],
 
-  [Color(0xfffbceb9), 
+  [
+    // Color(0xfffbceb9), 
   Color(0xffb288a2), 
   Color(0xfffa9d96), 
   Color(0xfffaa492)],
@@ -24,8 +26,8 @@ List bgColors = [
   Color(0xff6e4f92), 
   Color(0xffe38584), 
   Color(0xfff7965d)],
-  
-  [Color(0xff57567a),
+
+  [Color(0xff57567a), 
   Color(0xff2e2448)]
 
   // [Color(0xff81a5d6),Color(0xffdab5d3),Color(0xffe99b8b),Color(0xffef8582),]

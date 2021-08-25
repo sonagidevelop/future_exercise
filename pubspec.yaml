@@ -61,7 +61,7 @@ flutter:
     - images/city5.png
     - images/city6.png
     - images/sun1.png
-    - images/sun2.png
+    - images/logo.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

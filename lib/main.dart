@@ -117,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
     tz.setLocalLocation(tz.getLocation('Asia/Seoul'));
     final now = tz.TZDateTime.now(tz.local);
     var scheduledDate =
-        tz.TZDateTime(tz.local, now.year, now.month, now.day, 10, 57);
+        tz.TZDateTime(tz.local, now.year, now.month, now.day, 11, 47);
 
     return scheduledDate;
   }
@@ -143,7 +143,8 @@ class _MyHomePageState extends State<MyHomePage> {
             DateTime leftSstTime =
                 new DateFormat('yyyy-MM-dd HH:mm').parse(leftSstTimeStr);
             Duration diff = leftSstTime.difference(DateTime.now());
-            int leftMin = diff.inMinutes.toInt() + 1;
+            // int leftMin = diff.inMinutes.toInt() + 1;
+            int leftMin = -30;
             print(leftMin);
             String getLeftTimeStr(int value) {
               final int hour = value ~/ 60;
@@ -153,6 +154,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
             String finalTime = getLeftTimeStr(leftMin);
             String gong = "a";
+
+            String setBackground(int lm) {
+              int index = 1;
+
+              if (lm > 200) {
+                index = 1;
+              } else if (lm <= 200 && lm > 70) {
+                index = 2;
+              } else if (lm <= 70 && lm > 40) {
+                index = 3;
+              } else if (lm <= 40 && lm > 10) {
+                index = 4;
+              } else if (lm <= 10 && lm > -20) {
+                index = 5;
+              } else if (lm <= -20) {
+                index = 6;
+              }
+
+              return 'images/city${index}.png';
+            }
+
             return Scaffold(
               body: Container(
                   height: height,
@@ -165,13 +187,29 @@ class _MyHomePageState extends State<MyHomePage> {
                         if (leftMin > 200) ...[
                           bgColors[0][0],
                           bgColors[0][1],
-                          bgColors[0][2],
-                          bgColors[0][3],
-                        ] else if (leftMin <= 200) ...[
+                        ] else if (leftMin <= 200 && leftMin > 70) ...[
                           bgColors[1][0],
                           bgColors[1][1],
-                          // bgColors[1][2],
-                          // bgColors[1][3]
+                          bgColors[1][2],
+                          bgColors[1][3],
+                        ] else if (leftMin <= 70 && leftMin > 40) ...[
+                          bgColors[2][0],
+                          bgColors[2][1],
+                          bgColors[2][2],
+                          bgColors[2][3],
+                        ] else if (leftMin <= 40 && leftMin > 10) ...[
+                          bgColors[3][0],
+                          bgColors[3][1],
+                          bgColors[3][2],
+                          bgColors[3][3],
+                        ] else if (leftMin <= 10 && leftMin > -20) ...[
+                          bgColors[4][0],
+                          bgColors[4][1],
+                          bgColors[4][2],
+                          bgColors[4][3],
+                        ] else if (leftMin <= -20) ...[
+                          bgColors[5][0],
+                          bgColors[5][1],
                         ]
                       ]
                           // colors: leftMin > 30 ? bgColors[0] : bgColors[1]
@@ -263,15 +301,20 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
-                      ColorFiltered(
-                        colorFilter:
-                            ColorFilter.mode(Colors.yellow, BlendMode.srcATop),
-                        child: Image.asset('images/sun1.png'),
+                      Container(
+                        height: 50,
+                        width: 50,
+                        child: Padding(
+                          padding: const EdgeInsets.all(150),
+                          child: Image.asset(
+                            'images/sun1.png',
+                          ),
+                        ),
                       ),
                       Image.asset(
-                        'images/city1.png',
+                        setBackground(leftMin),
                         alignment: Alignment.bottomCenter,
-                      ),
+                      )
                     ],
                   )),
             );
